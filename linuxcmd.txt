@@ -13,4 +13,13 @@ Day 4
 12  vi linuxcmd.txt
 13  histpry
 14  history
-*************************************************
+-----
+git commands
+17  vi linuxcmd.txt
+18  git status
+19  git add linuxcmd.txt
+20  git status
+21  git commit -m"My First Commit"
+22  git status
+23  history
+
