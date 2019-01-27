@@ -1,0 +1,16 @@
+Day 4
+1  cat /etc/yum.repos.d
+2  ll /etc/yum.repos.d/
+3  yum install httpd -y
+4  rpm -qa | grep httpd
+5  yum install git
+6  yum install git -y
+7  cd \opt\
+8  cd /opt/
+9  mkdir -p /opt/gitdemo
+10  cd /opt/gitdemo
+11  git init
+12  vi linuxcmd.txt
+13  histpry
+14  history
+*************************************************
