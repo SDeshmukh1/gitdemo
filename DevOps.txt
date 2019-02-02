@@ -94,3 +94,55 @@ git init
 Git add 
 git commit
 
+Topic for Today
+	1. YML Document
+	2. Ansible modules
+	3. Install Ansible
+	4. Ansible Architecture
+
+We will create to 2 redhat ec2 instance 
+1 Ansible Controller instance 
+----------------------------------------------------Ansible-----------------------------
+Ansible Installation
+	1. Create a new file called 'ansible.repo' in cd /etc/yum.repos.d
+	vi ansible.repo
+
+	2. Copy the following content into it:
+	[Ansible]
+	name = ansible
+	baseurl = https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/
+	enabled = 1
+	gpgcheck = 0 
+
+	3. Run 'yum update' 
+	rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	yum -y install ansible
+	ansible --version
+
+------------------------------------------------------------------------------------------------------------
+	2. Edit host file 
+
+Cd /etc/ansible
+Vi hosts
+
+[all]
+172.31.10.184 ansible_ssh_private_key_file=/root/.ssh/server1.pem ansible_ssh_user=ec2-user
+(Private IP of HUB)    		(Private Key)				Login using user                                   
+
+---------------------------------------------------------------------------------------------------------------------------------
+	3. Create server1.pem file in /root/.ssh/server1.pem
+	chmod 600 server.pem
+----------------------------------------------------------------------------------------------------------------------------------
+	4. Debug if it is working or not
+	ssh -i server1.pem ec2-user@172.31.10.184
+----------------------------------------------------------------------------------------------------------------------------------
+	5. Run the ansible command
+	ansible all -m raw -a 'sudo uptime'
+------------------------------------------------------------------------------------------------------------------------------------
+
+Ansible Hub 
+
+
+
+YML Document
+
