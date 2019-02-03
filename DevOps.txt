@@ -1,4 +1,4 @@
-Notes
+i`Notes
 - collabedit.com/84mg5
 
 Automating Start and Stop the EC2 Instance
@@ -140,9 +140,42 @@ Vi hosts
 	ansible all -m raw -a 'sudo uptime'
 ------------------------------------------------------------------------------------------------------------------------------------
 
-Ansible Hub 
+Added on 2/3/2019
 
+Ansible modules
 
+To install software
+- hosts: ec2-user
+  user: ubuntu
+  sudo: true
+  
+  tasks:
+    - name: Install Web Server
+      yum: pkg=httpd state=installed
+	  
+To install and Run Service
+---
+- hosts: all
+  user: ec2-user
+  sudo: true
+  
+  vars:
+    pack_name: httpd
+    serv_name: httpd
+  
+  tasks:
+    - name: Install {{ pack_name }}
+      yum: pkg={{ pack_name }} state=installed
+    - name: Start {{ serv_name }}
+      service: name={{ serv_name }} state=started
+	  
+To Run Service
+---
+- hosts: all
+  user: ec2-user
+  sudo: true
 
-YML Document
+  tasks:
+    - name: Start httpd service
+      service: name=httpd  state=started
 

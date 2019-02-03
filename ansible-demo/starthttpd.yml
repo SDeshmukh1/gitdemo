@@ -1,0 +1,9 @@
+---
+- hosts: all
+  user: ec2-user
+  sudo: true
+
+  tasks:
+    - name: Start httpd service
+      service: name=httpd  state=stopped
+
