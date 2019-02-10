@@ -178,4 +178,157 @@ To Run Service
   tasks:
     - name: Start httpd service
       service: name=httpd  state=started
+-----------------------------
+Week 4
+Command Used today
+
+  108  cd /opt/gitdemo/ansible-demo/
+  109  vi look-up.yml
+  110  ansible-playbook look-up.yml -v
+  111  vi look-up.yml
+  112  ansible-playbook look-up.yml -v
+  113  vi look-up.yml
+  114  ansible-playbook look-up.yml -v
+  115  vi look-up.yml
+  116  ansible-playbook look-up.yml -v
+  117  ansible-playbook look-up.yml -vv
+  118  vi city-data.csv
+  119  ansible-playbook look-up.yml -vv
+  120  vi look-up.yml
+  121  ansible-playbook look-up.yml -vv
+  122  vi look-up.yml
+  123  ansible-playbook look-up.yml -vv
+  124  cat city-data.csv
+  125  cat lookup_plugin_out.out
+  126  ll
+  127  cd ..
+  128  ll
+  129  cd ..
+  130  ll
+  131  cd ..
+  132  ll
+  133  cd /opt
+  134  ll
+  135  cd gitdemo/
+  136  ll
+  137  cd ansible-demo/
+  138  ll
+  139  cat look-up.yml
+  140  cat  /opt/gitdemo/ansible-demo/lookup_plugin_out.out
+  141  ll
+  142  ansible-playbook look-up.yml -vv
+  143  vi look-up.yml
+  144  cat  /opt/gitdemo/ansible-demo/lookup_plugin_out.out
+  145  cat /opt/gitdemo/ansible-demo/lookup_plugin_out.out
+  146  vi look-up.yml
+  147  cat city-data.csv
+  148  vi look-up.yml
+  149  ansible-playbook look-up.yml -vv
+  150  vi look-up.yml
+  151  ansible-playbook look-up.yml -vv
+  152  ll
+  153*
+  154  pwd
+  155  vi look-up.yml
+  156  ansible-playbook look-up.yml -vvv
+  157  vi city-data.csv
+  158  ansible-playbook look-up.yml -vvv
+  159  ll -ls
+  160  vi look-up.yml
+  161  ansible-playbook look-up.yml -vvv
+  162  ll
+  163  cat shubham.out
+  164  vi look-up.yml
+  165  ssh -i /root/.ssh/server1.pem ec2-user@172.31.10.184
+  166  vi index.html.j2
+  167  vi ninja_template.yml
+  168  ansible-playbook ninja_template.yml -vv
+  169  cd /etc/yum.repos.d
+  170  vi ansible.repo
+  171  ansible-playbook ninja_template.yml -vv
+  172  cd /opt/gitdemo/ansible-demo/
+  173  vi ninja_template.yml
+  174  vi ninja_template.yml -vvv
+  175  ansible-playbook ninja_template.yml -vvv
+  176  ssh-keygen -t rsa
+  177  cd /root/.ssh/
+  178  ll
+  179  cd /opt/gitdemo/ansible-demo/
+  180  vi sshkey.yml
+  181  ansible-playbook sshkey.yml -vvv
+  182  ssh shubham@ec2-18-188-207-173.us-east-2.compute.amazonaws.com
+  183  history
+
+
+Modules used today
+
+---
+- hosts: web  #group name from the inventory
+  user: ec2-user Server Auth
+  sudo: true
+
+  vars:
+    pack_name: httpd
+    
+  tasks:
+    - name: Install {{ pack_name }}
+      yum: pkg={{ pack_name }} state=latest
+    - name: Verify Service Status
+      shell: systemctl status httpd
+      register: result
+      until: result.stdout.find("active (running)") !=-1
+      retries: 5
+      delay: 5
+------------------
+
+---- Jinja2 Templating------------------
+
+- hosts: all
+
+  vars: 
+   - MyMessage: "Welcome to Ansible world!"
+   - DBMessage: "Hello from MongoDB"
+
+  tasks:
+   - name: NGINX | Installing NGINX repo rpm
+     yum: name=http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+   - name: NGINX | Installing NGINX
+     yum: name=nginx state=latest
+   - name: index.html copy
+     template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
+   - name: NGINX | Starting NGINX
+     service: name=nginx state=started
+
+-----------index.html.j2--------------
+<html>
+<body>
+
+<h1>Ansible Demo</h1>
+<p>{{MyMessage}}</p>
+<p>{{DBMessage}}</p>
+<p>{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}</p>
+</body>
+</html>
+
+------------------------------------------------
+
+Creating one automation user for all the machine
+
+Ssh-keygen -t rsa
+
+
+- hosts: all
+
+  sudo: yes
+
+  tasks:
+
+  - user: name=myuser comment="My User" group=wheel
+
+  - name: Placing key
+    authorized_key: user=myuser key="{{ lookup('file', '/root/ansible/files/authorized_keys.myuser.pub') }}"
+---------------------------------------------------------
+
+
+
 
